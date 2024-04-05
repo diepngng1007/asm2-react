@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.shadow-on-hover:hover {
+    box-shadow: 5px 0px 5px 2px rgba(0, 0, 0, 0.2); /* Box-shadow bên phải */
+  }
