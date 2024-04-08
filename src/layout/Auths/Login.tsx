@@ -15,17 +15,23 @@ function Login() {
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<IAuth> = async (data: IAuth) => {
     try {
+      
       const res = await SignIn({ email: data.email, password: data.password });
       console.log(res);
       if (res.response?.data.status == 1) {
+        
         alert(res.response?.data.message);
       } else {
+    localStorage.setItem('info', JSON.stringify(res.user));
+    localStorage.setItem('token', JSON.stringify(res.accessToken))
         if (res.user.role == "admin") {
           // chuyen huong den admin
           navigate("/dashboard");
+          alert("Dang nhap thanh cong")
         } else {
           // chuyen huong ve client
-          navigate("/");
+          navigate("/home");
+          alert("Dang nhap thanh cong")
         }
       }
     } catch (error) {

@@ -137,7 +137,7 @@ function ProductList() {
           <Stack spacing={2}>
             <Pagination
               count={data && Math.ceil(data.count / limit)}
-              color="primary"
+              color="secondary"
               page={currentPages}
               onChange={(e, page) => setCurrentPages(page)}
             />

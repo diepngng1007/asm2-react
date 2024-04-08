@@ -5,6 +5,7 @@ import { useProductMutation } from '../../../hooks/useProductMutation'
 
 function ProductUpdate() {
   const [image, setImage] = useState<any>(null)
+  const [currentImage, setCurrentImage] = useState<any>(null);
   const { id } = useParams()
   // console.log(id)
   // lấy thông tin để fill vào form
@@ -16,10 +17,20 @@ function ProductUpdate() {
   })
   const handleImageChange = (e: any) => {
     const file = e.target.files[0]
-    setImage(file)
+    if (file) {
+      setImage(file);
+    }
    
   }
   useEffect(() => {
+    // Lưu trữ ảnh hiện tại vào biến trung gian khi có dữ liệu
+    if (data?.data.length > 0 && data?.data[0].thumbnail) {
+      setCurrentImage(data.data[0].thumbnail);
+    }
+    // Nếu không có ảnh mới được tải lên, giữ nguyên ảnh hiện tại
+    if (!image && currentImage) {
+      setImage(currentImage);
+    }
     form.reset(data?.data[0])
     console.log(data?.data[0])
     // alert('success')
@@ -54,6 +65,7 @@ function ProductUpdate() {
           >
             Product Thumbnail
           </label>
+          <img src={currentImage || image} alt="Current Product" className="w-40 h-40 mx-auto mb-5" />
           <input
             className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 w-[600px]"
             aria-describedby="user_avatar_help"

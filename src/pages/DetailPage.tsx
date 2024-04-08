@@ -1,12 +1,20 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useProductQuery from "../hooks/useProductQuery";
+import { useGlobalState } from "../contexts/CartContextProvider";
+import { IProduct } from "../interface/product";
 
 function DetailPage() {
   const { id } = useParams()
   console.log(id)
   const { data } = useProductQuery({id})
   console.log(data?.data[0])
+  const { state, dispatch} = useGlobalState();
+  console.log(state)
+  const addToCart = (product : IProduct) => {
+    dispatch({ type: 'ADD_TO_CART', payload: product})
+    console.log(product)
+  }
   return (
     <>
       <section className="overflow-hidden text-gray-600 body-font">
@@ -162,8 +170,8 @@ function DetailPage() {
                 <span className="text-2xl font-medium text-gray-900 title-font">
                   {data.data[0].price}
                 </span>
-                <button className="flex px-6 py-2 ml-auto text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
-                  Button
+                <button className="flex px-6 py-2 ml-auto text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600" onClick={() => addToCart(data.data[0])}>
+                  Add To Cart
                 </button>
                 <button className="inline-flex items-center justify-center w-10 h-10 p-0 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
                   <svg

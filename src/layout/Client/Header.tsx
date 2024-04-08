@@ -1,15 +1,28 @@
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { ChevronDownIcon, ShoppingCartIcon } from "@heroicons/react/16/solid";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useGlobalState } from "../../contexts/CartContextProvider";
 
 function Header() {
   const [dropdown, setDropdown] = useState<boolean>(false);
+  const [token, setToken] = useState<string>(localStorage.getItem('token')||"");
+  const { state } = useGlobalState();
+  // const totalQuantity = state.initialState.reduce((acc, item) => acc + item.quantity, 0);
+
+  const totalCart = state.currentCart && state.currentCart.length;
+  const LogOut = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('info')
+    setToken("")
+  }
+ 
   return (
     <div>
-      <nav className="fixed w-full bg-white border-gray-200 dark:bg-gray-900">
+      <nav className="fixed top-0 w-full bg-white border-gray-200 dark:bg-gray-900">
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-          <a w-full
-            href="https://flowbite.com/"
+          <Link
+          to='/home'
+            w-full
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
@@ -20,7 +33,7 @@ function Header() {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Flowbite
             </span>
-          </a>
+          </Link>
           <div className="flex md:order-2">
             <button
               type="button"
@@ -73,6 +86,8 @@ function Header() {
               />
             </div>
             <div className="flex items-start ml-5">
+              {token?"":
+             <>
               <Link
                 type="button"
                 className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
@@ -86,8 +101,20 @@ function Header() {
                 to="/login"
               >
                 Login
+              </Link></>}
+              <Link to='/home/cart' className="relative flex items-center mx-3 mt-2 cursor-pointer">
+                <ShoppingCartIcon className="text-pink-600 w-[25px]" />
+                <div className="w-[20px] h-[20px] rounded-full bg-pink-400 absolute top-3 left-6">
+                  <p className="absolute top-0 text-white left-1.5 text-sm">
+                    {totalCart}
+                  </p>
+                </div>
               </Link>
+              {token&&<button className="px-5 py-2 pb-2 ml-5 border-2 border-pink-200 rounded-lg" onClick={() => LogOut()}><span>Log Out</span></button>}
+              
             </div>
+
+            {/* <h1>Cart : {totalCart}</h1> */}
             <button
               data-collapse-toggle="navbar-search"
               type="button"

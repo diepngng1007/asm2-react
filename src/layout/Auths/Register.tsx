@@ -20,6 +20,7 @@ function Register() {
     // console.log(res.status); 
     if(res?.status === 0){
       navigate("/login"); 
+      alert('Dang ky thanh cong')
       console.log(res.status)
     }
   } catch (error) {

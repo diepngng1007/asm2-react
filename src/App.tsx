@@ -17,12 +17,14 @@ import ProductAdd from './pages/dashboard/product/ProductAdd'
 import ProductUpdate from './pages/dashboard/product/ProductUpdate'
 import ProductList from './pages/dashboard/product/ProductList'
 import ContactPage from './pages/ContactPage'
+import { GlobalStateProvider } from './contexts/CartContextProvider'
 // import Sidebar from './layout/Admin/Sidebar'
 
 function App() {
   return (
     <>
-      <Routes>
+    <GlobalStateProvider>
+    <Routes>
         <Route path='/home' element={<LayoutClient/>}>
           <Route index element={<HomePage/>}/>
           <Route path='shop' element={<ShopPage/>}/>
@@ -40,6 +42,8 @@ function App() {
           <Route path='products' element={<ProductList/>}/>
         </Route>
       </Routes>
+    </GlobalStateProvider>
+     
     </>
   )
 }
